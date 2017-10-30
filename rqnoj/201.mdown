@@ -1,0 +1,89 @@
+#RQNOJ 201
+##题目描述
+为了迎接奥运，市体育局举行手拉手大包围活动，开始时N个人手拉手围成一个圈。后来这些人中的一些按顺序向里面出圈形成一个新圈。从而使原圈形成一个从高到低，最低与最高连接的圈。新圈重复相同的操作，直到没有人要出圈为止。问最少要形成多少个这样的圈。
+##输入格式
+输入：第一行N个人，第二行输入N个人的身高（每个身高中用空格隔开）N<=1000
+##输出格式
+输出：最少形成多少个这样的圈。
+##样例输入
+	10
+	145 143 156 153 152 150 156 174 173 172 
+##样例输出
+	2
+##分析
+本题的本质就是求一个环从某个地方断开，然后求LIS，取LIS最小值即可
+###**LIS怎么求？**
+三种方法（我只会两种）
+#### n^2的dp方法
+dp\[i]表示前i个中的LIS长度
+**dp方程是**
+**dp\[i]=max(dp\[j]+1,1) (arr[i]<arr[j])**
+#### nlogn的方法
+dp\[i]表示若LIS长度为i，那么最后一个元素的大小为dp\[i]
+**dp方法**
+**二分使dp\[i]恰好>arr[now]，然后让dp\[i+1]=arr[now]**
+##代码
+```
+#include <iostream>
+#include <string.h>
+#define TLE
+//#define AC
+using namespace std;
+
+int arr[4005];
+int dp[2005],ans=0x3f3f;
+int n;
+
+#ifdef TLE
+int qiu(int in[])
+{
+	int t=-1;
+	for(int a=0;a<n;a++)
+	{
+		dp[a]=1;
+		for(int b=0;b<a;b++)
+			if(in[a]>=in[b] && dp[a]<(dp[b]+1))
+				dp[a]=dp[b]+1;
+		t=max(t,dp[a]);
+	}
+	return t;
+}
+#endif
+#ifdef AC
+int qiu(int in[])
+{
+	dp[1]=in[0];
+	int len =1;
+	for(int i=1;i<n;i++)
+	{
+		int l=1;
+		int r=len;
+		while(l<=r)
+		{
+			int m = (l+r)/2;
+			if(in[i]<dp[m]) r=m-1;
+			else l=m+1;
+		}
+		dp[l] = in[i];
+		if(l>len) len++;
+	}
+	return len;
+}
+#endif
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin>>n;
+	for(int a=0;a<n;a++)
+	{
+		cin>>arr[a];
+		arr[a+n]=arr[a];
+	}
+	for(int a=0;a<n;a++)
+	{
+		memset(dp,0,sizeof(dp));
+		ans=min(ans,qiu(arr+a));
+	}
+	cout<<ans<<endl;
+}
+```

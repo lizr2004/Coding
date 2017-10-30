@@ -1,0 +1,84 @@
+#RQNOJ 117 最佳课题选择
+##题面
+###题目描述
+NaCN\_JDavidQ要在下个月交给老师n篇论文，论文的内容可以从m个课题中选择。由于课题数有限，NaCN\_JDavidQ不得不重复选择一些课题。完成不同课题的论文所花的时间不同。具体地说，对于某个课题i，若NaCN\_JDavidQ计划一共写x篇论文，则完成该课题的论文总共需要花费Ai*x^Bi个单位时间（系数Ai和指数Bi均为正整数）。给定与每一个课题相对应的Ai和Bi的值，请帮助NaCN_JDavidQ计算出如何选择论文的课题使得他可以花费最少的时间完成这n篇论文。
+###输入格式
+第一行有两个用空格隔开的正整数n和m，分别代表需要完成的论文数和可供选择的课题数。
+以下m行每行有两个用空格隔开的正整数。其中，第i行的两个数分别代表与第i个课题相对应的时间系数Ai和指数Bi。
+
+###输出格式
+输出完成n篇论文所需要耗费的最少时间。
+###数据范围
+对于30%的数据，n<=10,m<=5；
+对于100%的数据，n<=200，m<=20，Ai<=100，Bi<=5。
+###样例输入 
+	10 3
+	2 1
+	1 2
+	2 1
+###样例输出 
+	19
+##分析
+###dfs
+dfs(i)表示完成i篇论文。
+返回值表示最小时间
+```
+int dfs(int now)
+{
+	int ans=INF;
+	for(每个课题)
+		for(多少篇文章)
+			ans=min(ans,dfs(now+文章数)+在这个课题上写文章数的时间);
+	return ans;
+}```
+###表示
+dp\[i]表示完成i篇论文的最小时间。
+###转移
+对于每一个课题i，预处理出va数组va\[i]\[j]表示j篇文章的时间，则有dp方程
+**dp\[x]=min(dp\[x],dp\[x-j]+va\[i]\[j])**
+###顺序
+for 每个课题
+for 共完成论文数量
+for 这个课题中完成多少
+##代码
+```
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+using namespace std;
+long long dp[5000];
+long long va[5000][1000];
+long long POW(int a,int b)
+{
+	long long ans=1;
+	while(b)
+	{
+		if(b&1)ans*=a;
+		a*=a;
+		b>>=1;
+	}
+	return ans;
+}
+int main()
+{
+	int a,b;
+	int n,m,c;
+	while(cin>>n>>m)
+	{
+		memset(dp,0x3f,sizeof(dp));
+		for(int i=0;i<m;i++)
+		{
+			cin>>a>>b;
+			for(int j=0;j<=n;j++)
+				va[i][j]=POW(j,b)*a;
+		}
+		dp[0]=0;
+		for(int i=0;i<m;i++)
+			for(int j=n;j>=1;j--)
+				for(int k=1;k<=j;k++)
+					dp[j]=min(dp[j],dp[j-k]+va[i][k]);
+		cout<<dp[n]<<endl;
+	}
+	return 0;
+}  
+```

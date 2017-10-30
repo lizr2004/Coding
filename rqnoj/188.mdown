@@ -1,0 +1,81 @@
+#RQNOJ 188
+[题目链接](https://www.rqnoj.cn/problem/188)
+##题目描述
+由于换季，商场推出优惠活动，以超低价格出售若干种商品。但是商场为避免过分亏本，规定某些商品不能同时购买，而且每种超低价商品只能买一件。身为顾客的你想获得最大的实惠，也就是争取节省最多的钱。经过仔细研究，我们发现商场出售的超低价商品中，不存在以下这种情况：n(n>=3)种商品C1，C2，C3，……，Cn，其中Ci和Ci+1是不能同时购买的（i=1,2,……,n-1），而且C1和Cn也不能同时购买。请编程计算可以节省的最大金额数。
+##输入格式
+第一行两个整数K，M（1<=K<=1000），其中K表示超低价商品数，K种商品的编号依次为1，2，3，……，K；M表示不能同时购买的商品对数。
+接下来K行，第i行有一个整数Xi表示购买编号为i的商品可以节省的金额（1<=Xi<=100）。
+再接下来M行，每行两个数A，B，表示A和B不能同时购买，1<=A,B<=K,A≠B。
+##输出格式
+仅一行一个整数，表示能节省的最大金额数。
+##样例输入
+	3 1
+	1
+	1
+	1
+	1 2
+##样例输出
+	2
+##分析
+此题一看就是dp题，但是没有明确的dp顺序，而题中特别强调了“**不存在以下这种情况：n(n>=3)种商品C1，C2，C3，……，Cn，其中Ci和Ci+1是不能同时购买的（i=1,2,……,n-1），而且C1和Cn也不能同时购买。**”也就是说，此题的约束情况是一颗树（而且边无向，准确的说是森林）所以我们可以在树上dp；
+###dp数组定义
+dp\[i]\[0]表示不选i，i及其子树的最大金额数。
+dp\[i]\[1]表示选择i，i及其子树的最大金额数。
+###dp方程
+假设(u.v)是一条边，对于我们选取的root节点，u在上方，v在下方，则有
+
+###dp顺序
+定义一个vis数组，主函数内枚举每个节点，如果他没有vis过就搜索。每次搜索到某个节点就vis[a]=1;
+
+##代码如下
+```#include <iostream>
+#include <vector>
+using namespace std;
+
+int n,k;
+vector<int> bb[1005];
+bool vis[1005];
+int arr[1005];
+int dpa[1005][2];
+void dp(int a,int fa)
+{
+	vis[a]=1;
+	dpa[a][0]=0;
+	dpa[a][1]=arr[a];
+	int sz=bb[a].size();
+	for(int b=0;b<sz;b++)
+	{
+		if(bb[a][b]==fa)continue;
+		dp(bb[a][b],a);
+		dpa[a][0]+=max(dpa[bb[a][b]][0],dpa[bb[a][b]][1]);
+		dpa[a][1]+=dpa[bb[a][b]][0];
+	}
+}
+
+int main()
+{
+	vector<int> roots;
+	int a,b,ans=0;
+	cin>>n>>k;
+	for(int a=1;a<=n;a++)
+		cin>>arr[a];
+	while(k--)
+	{
+		cin>>a>>b;
+		bb[a].push_back(b);
+		bb[b].push_back(a);
+	}
+	for(int a=1;a<=n;a++)
+		if(!vis[a])
+		{
+			dp(a,-1);
+			roots.push_back(a);
+		}
+	int sz=roots.size();
+	for(int a=0;a<sz;a++)
+	{
+		// cout<<roots[a]<<endl;
+		ans+=max(dpa[roots[a]][0],dpa[roots[a]][1]);
+	}
+	cout<<ans<<endl;
+}```
