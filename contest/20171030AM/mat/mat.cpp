@@ -6,7 +6,7 @@ int arr[51200],brr[51200];
 
 int main()
 {
-	// freopen("mat.in","r",stdin);
+	freopen("mat.in","r",stdin);
 	// freopen("mat.out","w",stdout);
 	int ansI=0,n=0,m=1;
 	double ans=0.0;

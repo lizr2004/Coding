@@ -9,7 +9,7 @@ char can[16];bool flag;
 int main()
 {
 	freopen("num.in","r",stdin);
-	freopen("num.out","w",stdout);
+	// freopen("num.out","w",stdout);
 	int n;
 	scanf("%d%s",&n,can);
 	int s=strlen(can);
