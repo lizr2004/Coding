@@ -12,23 +12,20 @@ int main()
 	// freopen("destroy.out","w",stdout);
 	int n,m,ans;
 	scanf("%d%d",&n,&m);ans=0;
-	for(int a=1;a<=n;a++)
-		for(int b=1;b<=n;b++)
-			ed[a][b]=b;
-	while(m--)
+	for(int a=1;a<=m;a++)
 	{
 		int  x,y,r;
 		scanf("%d%d%d",&x,&y,&r);
-		memset(ed[x],1,sizeof(char)*(r*2-1));
+		ed[x][y-r]-=a; ed[x][y+r]+=a;
 		for(int a=1;a<=r;a++)
 		{
 			int  dis=std::max(1, (int)sqrt(r*r-a*a)+x-r );
-			memset(ed[x-a],1,sizeof(int)*(dis*2-1));
-			memset(ed[a+x],1,sizeof(int)*(dis*2-1));
+			ed[x][y-r]-=a; ed[x][y+r]+=a;
 		}
 	}
-	for(int a=1;a<=n;a++)for(int b=1;b<=n;b++)if(ed[a][b])ans++;
+	for(int a=1;a<=n;a++)for(int b=2;b<=n;b++)ed[a][b]+=ed[a][b-1];
+	for(int a=1;a<=n;a++)for(int b=1;b<=n;b++)if(ed[a][b]==0)ans++;
 	// for(int a=1;a<=n;a++) ans+=ed[a][n];
 	// for(int a=1;a<=n;a++){for(int b=1;b<=n;b++)printf("%d ",ed[a][b]);puts("");}
-	printf("%d\n",n*n-ans);
+	printf("%d\n",ans);
 }
