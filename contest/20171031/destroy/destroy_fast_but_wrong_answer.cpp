@@ -9,14 +9,14 @@ inline bool can(int a,int b,int r){return (r*r-a*a-b*b)>=0;}
 int main()
 {
 	freopen("destroy.in","r",stdin);
-	// freopen("destroy.out","w",stdout);
+	freopen("destroy.out","w",stdout);
 	int n,m,ans;
 	scanf("%d%d",&n,&m);ans=0;
-	for(int a=1;a<=m;a++)
+	for(int i=1;i<=m;i++)
 	{
 		int  x,y,r;
 		scanf("%d%d%d",&x,&y,&r);
-		ed[x][y-r]-=a; ed[x][y+r]+=a;
+		ed[x][y-r]--; ed[x][y+r]++;
 		for(int a=1;a<=r;a++)
 		{
 			int  dis=std::max(1, (int)sqrt(r*r-a*a)+x-r );

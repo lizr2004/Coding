@@ -21,12 +21,5 @@ int main()
 	int year,month,day,ans;
 	while(~scanf("%d%d%d",&year,&month,&day))
 	{
-		ans=0;
-		ans+=(2013-year)*12-month;
-		if(day>22) {ans+=getdays(year,month)-day; ans+=21; }
-		else ans+=(22-day);
-		// printf("%d ",ans);
-		if(ans&1)puts("YES");
-		else puts("NO");
 	}
 }
