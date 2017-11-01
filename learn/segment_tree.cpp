@@ -101,8 +101,8 @@ int main()
 		}
 		else
 		{
-			scanf("%d",&a);
-			long long main_ans=ask(a,root);
+			scanf("%d%d",&a,&b);
+			long long main_ans=ask(a,b,root);
 			printf("%lld\n",main_ans);
 		}
 	}
