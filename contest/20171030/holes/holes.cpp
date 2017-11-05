@@ -9,7 +9,7 @@ int n,m;
 bool black[5120][2];
 int w[5120],s[5120];
 int to[38600],pre[38600],head[5120],value[38600],tot=1;
-bool in[5120];int dis[5120];
+bool in[5120];int dis[5120][2];
 void addedge(int u,int v,int w)
 {
 	pre[tot]=head[u];

@@ -13,18 +13,6 @@ long long ycd_arr[3][3]={
 	{0LL,0LL,1LL},
 	{1LL,0LL,1LL}
 };
-mat mat_mul(mat x,mat y) 
-{
-	mat res; qing(res.a);
-	for(int i=0;i<3;i++)
-	for(int j=0;j<3;j++)
-	for(int k=0;k<3;k++)
-	{
-		res.a[i][j]+=x.a[i][k]*y.a[k][j];
-		res.a[i][j]%=MOD;
-	}
-	return res;
-}
 mat multi(mat a,mat b){
 	mat c;qing(c.a);
 	for(int i=0;i<3;i++)
@@ -35,7 +23,7 @@ mat multi(mat a,mat b){
 		c.a[i][j]%=MOD;
 	}
 	return c;
-} 
+}
 void out(mat fuck)
 {
 	for(int a=0;a<3;a++)

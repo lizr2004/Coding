@@ -10,11 +10,7 @@ struct Node{int l,r,v[11],lazy;bool lazy_type;Node *lc,*rc;};
 inline int pow(int a,int b)
 {
 	int ans=1;
-	while(a)
-	{
-		if(a&1)ans*=b;
-		b*=b;a>>=1;
-	}
+	while(a) {if(a&1)ans*=b; b*=b;a>>=1; }
 	return ans;
 }
 Node *build(int l,int r)
@@ -167,9 +163,9 @@ int ask(int l,int r,int x,Node *now)
 int main()
 {
 	int n,m;
-	// while(1){
+	while(1){
 	scanf("%d%d",&n,&m);
-	// printf("%d\n",pow(n,m) );}
+	printf("%d\n",pow(n,m) );}
 	Node *root=build(1,n+1);
 	while(m--)
 	{
