@@ -33,8 +33,7 @@ void dfs(int now,int depth)
 int lca(int a,int b)
 {
 	// puts("--------------");
-	int flag=0;
-	if(dep[a]>dep[b]){std::swap(a,b);flag=-1;}
+	if(dep[a]>dep[b]){std::swap(a,b);}
 	//dep[b]  >  dep[a]
 	int cha=dep[b]-dep[a],bei=0;
 	// printf("fuck %d\n",cha);
@@ -46,12 +45,13 @@ int lca(int a,int b)
 		cha>>=1;
 	}
 	if(a==b)return a;
-	for(int bei=19;bei>=0;bei--)
+	for(int bei=18;bei>=0;bei--)
 		if(anc[a][bei]!=anc[b][bei])
 		{
 			a=anc[a][bei];
 			b=anc[b][bei];
 		}
+	return anc[a][0];
 }
 
 int main()
