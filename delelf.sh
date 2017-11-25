@@ -14,6 +14,7 @@ function substr
         return 1
     fi
 }
+rm "contest/XTYF-lzr.zip"
 find -name "*.in" -delete
 find -name "*.out" -delete
 find -name "*.ans" -delete
